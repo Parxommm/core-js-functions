@@ -129,8 +129,19 @@ function memoize(func) {
  * }, 2);
  * retryer() => 2
  */
-function retry(/* func, attempts */) {
-  throw new Error('Not implemented');
+function retry(func, attempts) {
+  return () => {
+    let attempt = 0;
+    while (attempt < attempts) {
+      // console.log('🚀 ~ return ~ attempt:', attempt);
+      try {
+        return func();
+      } catch (err) {
+        attempt += 1;
+      }
+    }
+    return new Error();
+  };
 }
 
 /**
